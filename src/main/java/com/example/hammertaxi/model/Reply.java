@@ -36,7 +36,7 @@ public class Reply {
 	private Board board;
 
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name="userId")//어디랑연관된지 모르니까  하나의 게시글엔 여러개 가필요 , manytoone 사용  onetoone 이면 하나의 글에 하나의답면만달림. 
 	private User user;
 
 	@CreationTimestamp

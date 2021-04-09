@@ -30,19 +30,19 @@ import lombok.NoArgsConstructor;
 public class Board {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment사용 
 	private int id; 
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 100) //제목이 null이되면 안되기때문에 column 사용
 	private String title;
 
 	@Lob // 대용량 데이터
-	private String content; // 섬머노트 라이브러리 <html>태그가 섞여서 디자인이 됨.
+	private String content; // 섬머노트 라이브러리 <html>태그가 섞여서 디자인이 됨. 우리가적는 일반적인글이 디자인 된다는말. 글자용량이 커짐 .  
 
-	@ColumnDefault("0")
+	@ColumnDefault("0")//조회수는 기본적으로 0 이어야함 ,
 	private int count; // 조회수
 
-	@ManyToOne(fetch = FetchType.EAGER)  // Many = Many,  User = One
+	@ManyToOne(fetch = FetchType.EAGER)  // Many = Many,  User = One  한명의 유저는 여러개의 게시글을 쓸수있다. 
 	@JoinColumn(name="userId")
 	private User user; // DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다. 
 
