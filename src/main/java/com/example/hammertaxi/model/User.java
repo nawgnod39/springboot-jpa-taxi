@@ -1,7 +1,9 @@
 package com.example.hammertaxi.model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,9 +39,11 @@ public class User {
 	@Column(nullable = false, length = 50)
 	private String email; // myEmail, my_email
 
-	@ColumnDefault("'user'")//""를 넣어야한다.
-	private String role; // Enum을 쓰는게 좋다. // admin, user, manager 권한을 만들어 줌 
+	// @ColumnDefault("user")
+	// DB는 RoleType이라는 게 없다.
+	@Enumerated(EnumType.STRING)
+	private RoleType role; // Enum을 쓰는게 좋다. // ADMIN, USER
 
 	@CreationTimestamp
-	private LocalDateTime createDate;//가입한시각을 나타냄. 
+	private Timestamp createDate;
 }
