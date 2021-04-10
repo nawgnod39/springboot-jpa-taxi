@@ -27,7 +27,7 @@ public class DummyControllerTest {
 		System.out.println("createDate : "+user.getCreateDate());
 
 		user.setRole(RoleType.USER);
-		userRepository.save(user);
+		userRepository.save(user); // save 해서 user 넣어 주면 회원 가입이된다.
 		return "회원가입이 완료되었습니다.";
 	}
 }
