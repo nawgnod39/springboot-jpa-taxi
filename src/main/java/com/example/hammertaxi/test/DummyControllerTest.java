@@ -42,7 +42,7 @@ public class DummyControllerTest {
 	public String delete(@PathVariable int id) {
 		try {
 			userRepository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {//귀찮으면 excetion 을 걸어도됨.
 			return "삭제에 실패하였습니다. 해당 id는 DB에 없습니다.";
 		}
 
