@@ -41,14 +41,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 			.csrf().disable()  // csrf 토큰 비활성화 (테스트시 걸어두는 게 좋음)
 			.authorizeRequests()
-				.antMatchers("/", "/auth/**", "/js/**", "/css/**", "/image/**")
+			.antMatchers("/", "/auth/**", "/js/**", "/css/**", "/image/**", "/dummy/**") 
 				.permitAll()
 				.anyRequest()
 				.authenticated()
 			.and()
 				.formLogin()
 				.loginPage("/auth/loginForm")
-				.loginProcessingUrl("/auth/loginProc")
+				.loginProcessingUrl("/auth/loginProc")        
 				.defaultSuccessUrl("/"); // 스프링 시큐리티가 해당 주소로 요청오는 로그인을 가로채서 대신 로그인 해준다.
 	}
 }
