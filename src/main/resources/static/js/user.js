@@ -3,9 +3,7 @@ let index = {
 			$("#btn-save").on("click", ()=>{ // function(){} , ()=>{} this를 바인딩하기 위해서!!  
 				this.save();
 			});
-			$("#btn-login").on("click", ()=>{ // function(){} , ()=>{} this를 바인딩하기 위해서!! 
-				this.login();
-			});
+
 		},
 
 		save: function(){

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UserController {
 
-	@GetMapping("/auth/joinForm")
+	@GetMapping("/auth/joinForm")//인증을 위해 auth 사용 
 	public String joinForm() {	
 		return "user/joinForm";
 	}
