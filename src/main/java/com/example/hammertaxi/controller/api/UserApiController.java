@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.hammertaxi.dto.ResponseDto;
 import com.example.hammertaxi.model.RoleType;
 import com.example.hammertaxi.model.User;
@@ -20,6 +21,9 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private HttpSession session;
 
 	@PostMapping("/api/user") 
 	public ResponseDto<Integer> save(@RequestBody User user) { // username, password, email 
