@@ -40,11 +40,11 @@ public class User {
 	private String email; // myEmail, my_email
 
 	// @ColumnDefault("user")
-	// DB는 RoleType이라는 게 없다.
+	// DB는 RoleType이라는 게 없다.         
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // Enum을 쓰는게 좋다. // ADMIN, USER
 	
 	// 내가 직접 시간을 넣으려면 Timestamp.valueOf(LocalDateTime.now())
 	@CreationTimestamp
-	private Timestamp createDate;
+	private Timestamp createDate; 
 }

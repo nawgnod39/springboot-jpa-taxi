@@ -13,9 +13,11 @@ import com.example.hammertaxi.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-
-//	@Query(value="SELECT * FROM user WHERE username = ?1 AND password = ?2", nativeQuery = true)
-//	User login(String username, String password);
-	// SELECT * FROM user WHERE username = 1?;
+	//USER findByUsernameAndPassword(String username, String password) 이렇게 쓰면 
+	//SELECT * FROM user WHERE username = ? AND password = ?   ? 에 username과 password 가 들어온다.  이게 jpa naming 전략
+	//------------------------------------------------------------------------------------------------------
+	//@Query(value="SELECT * FROM user WHERE username = ? AND password = ?",nativeQuery=true)
+	//User login (String username ,String password); 이렇게 두줄 적어주면 UserRepository.login 을하면  위에커리문을 해주고 retrun을 User 객체로 해줌 .
+	
 	Optional<User> findByUsername(String username);
 }
