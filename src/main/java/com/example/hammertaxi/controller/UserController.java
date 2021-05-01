@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import com.example.hammertaxi.config.auth.PrincipalDetail;
+import com.example.hammertaxi.model.KakaoProfile;
 import com.example.hammertaxi.model.OAuthToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 //인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용
 //그냥 주소가 / 이면 index.jsp 허용
 //static이하에 있는 /js/**, /css/**, /image/**
@@ -100,8 +102,19 @@ public class UserController {
 						String.class
 				);
 				System.out.println(response2.getBody());
-
-		return "카카오 인증완료 : 응답값 :" +response2.getBody();
+				
+				ObjectMapper objectMapper2 = new ObjectMapper();
+				KakaoProfile kakaoProfile = null;
+				try {
+					kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
+				} catch (JsonMappingException e) {
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+				System.out.println("카카오 아이디 "+kakaoProfile.getId());
+				System.out.println("카카오 이메일"+kakaoProfile.getKakao_account().getEmail());
+				return "카카오 인증완료 : 응답값 :" +response2.getBody();
 	}
 	@GetMapping("/user/updateForm")
 	public String updateForm() {
