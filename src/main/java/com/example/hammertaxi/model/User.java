@@ -45,7 +45,7 @@ public class User {
 	private RoleType role; // Enum을 쓰는게 좋다. // ADMIN, USER
 	
 	
-
+	private String oauth;//카카오로그인 한사람은 카카오로 들어가게하는 값을 정해줌 .
 	
 	// 내가 직접 시간을 넣으려면 Timestamp.valueOf(LocalDateTime.now())
 	@CreationTimestamp

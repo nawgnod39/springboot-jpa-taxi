@@ -51,10 +51,15 @@ public class UserService {
 		User persistance = userRepository.findById(user.getId()).orElseThrow(()->{
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistance.setPassword(encPassword);
-		persistance.setEmail(user.getEmail());
+		//validation 체크 카카오로 적혀있는사람은  이코
+		if(persistance.getOauth()==null  || persistance.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			persistance.setPassword(encPassword);
+			
+			
+		}
+
 
 
 		// 회원수정 함수 종료시 = 서비스 종료 = 트랜잭션 종료 = commit 이 자동으로 됨

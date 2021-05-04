@@ -134,6 +134,7 @@ public class UserController {
 						.username(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId())
 						.password(takdongKey)
 						.email(kakaoProfile.getKakao_account().getEmail())
+						.oauth("kakao" )
 						.build();
 				
 				//65 ,4658
