@@ -3,12 +3,14 @@ package com.example.hammertaxi.controller.api;
 import com.example.hammertaxi.config.auth.PrincipalDetail;
 import com.example.hammertaxi.dto.ResponseDto;
 import com.example.hammertaxi.model.Board;
+import com.example.hammertaxi.model.Reply;
 import com.example.hammertaxi.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PutMapping;
+import com.example.hammertaxi.dto.ReplySaveRequestDto;
 
 @RestController
 public class BoardApiController {
@@ -36,4 +38,15 @@ public class BoardApiController {
 		boardService.글수정하기(id, board);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+		boardService.댓글쓰기(replySaveRequestDto);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
+	}
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replyDelete(@PathVariable int replyId) {
+		boardService.댓글삭제(replyId);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
+	}
+
 }

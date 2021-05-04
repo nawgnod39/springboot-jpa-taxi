@@ -2,7 +2,7 @@ package com.example.hammertaxi.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,9 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.ColumnDefault;
+import javax.persistence.OrderBy;
 import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,9 +46,12 @@ public class Board {
 	@JoinColumn(name = "userId")
 	private User user; // DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.
 
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // mappedBy 연관관계의 주인이 아님 DB에 칼럼 만들지 않음
-	private List<Reply> reply;// 하나의 게시글은 여러게 댓글가능 onetomany
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // mappedBy 연관관계의 주인이 아니다 (난 FK가 아니에요) DB에 칼럼을 만들지 마세요.
+	//private List<Reply> reply;// 하나의 게시글은 여러게 댓글가능 onetomany
 //reply 테이블에있는 board 아이디를 넣어주고  
+	@JsonIgnoreProperties({"board"})
+	@OrderBy("id desc")
+	private List<Reply> replys;
 	@CreationTimestamp
 	private LocalDateTime createDate;
 	

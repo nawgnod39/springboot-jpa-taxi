@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.example.hammertaxi.dto.ReplySaveRequestDto;
+import com.example.hammertaxi.repository.ReplyRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,4 +43,10 @@ public class Reply {
 
 	@CreationTimestamp
 	private LocalDateTime createDate;
+	
+	@Override
+	public String toString() {
+		return "Reply [id=" + id + ", content=" + content + ", board=" + board + ", user=" + user + ", createDate="
+				+ createDate + "]";
+	}
 }
