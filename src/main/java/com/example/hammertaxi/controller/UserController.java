@@ -1,6 +1,6 @@
 package com.example.hammertaxi.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
+
 
 import java.util.UUID;
 
@@ -23,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
 import com.example.hammertaxi.config.auth.PrincipalDetail;
 import com.example.hammertaxi.model.KakaoProfile;
 import com.example.hammertaxi.model.OAuthToken;
+import com.example.hammertaxi.model.User;
+import com.example.hammertaxi.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +35,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class UserController {
+	
+	@Value("${takdong.key}")
+	private String takdongKey;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/auth/joinForm") // 인증을 위해 auth 사용
 	public String joinForm() {
@@ -45,7 +55,7 @@ public class UserController {
 	}
 
 	@GetMapping("/auth/kakao/callback")
-	public @ResponseBody String kakaoCallback(String code) {
+	public  String kakaoCallback(String code) {
 		//data를 return 해주는 함수 
 		
 		RestTemplate rt = new RestTemplate();
@@ -114,7 +124,34 @@ public class UserController {
 				}
 				System.out.println("카카오 아이디 "+kakaoProfile.getId());
 				System.out.println("카카오 이메일"+kakaoProfile.getKakao_account().getEmail());
-				return "카카오 인증완료 : 응답값 :" +response2.getBody();
+				System.out.println("카카오 유저네임 "+kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+				System.out.println("hammer 서버 이메일 "+kakaoProfile.getKakao_account().getEmail());
+				
+			//	UUID garbagePassword =UUID.randomUUID(); 중복되지않는 특정값을 만들어 내는 알고리즘 . 로그인할때마다 바뀌어있음.
+				System.out.println("블로그패스워드 "+takdongKey);
+				 
+				User kakaoUser =User.builder()//User 오브젝트를 넣어야함
+						.username(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId())
+						.password(takdongKey)
+						.email(kakaoProfile.getKakao_account().getEmail())
+						.build();
+				
+				//65 ,4658
+				
+				
+				
+				//가입자인지 비가입자인지 체크해서 처리해야함
+				User originUser =userService.회원찾기(kakaoUser.getUsername());
+				if(originUser.getUsername() ==null) {
+					System.out.println("기존회원이 아닙니다. 회원가입이 진행됩니다.");
+					userService.회원가입(kakaoUser);
+				}
+				//로그인처리
+				Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(),takdongKey));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+
+				
+				return "redirect:/";
 	}
 	@GetMapping("/user/updateForm")
 	public String updateForm() {

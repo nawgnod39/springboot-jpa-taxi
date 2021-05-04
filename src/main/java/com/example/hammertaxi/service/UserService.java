@@ -2,6 +2,8 @@ package com.example.hammertaxi.service;
 
 
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,16 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
+	
+	@Transactional(readOnly =  true)
+	public User 회원찾기 (String  username) {
 
+		User user =userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+			return user;
+	
+	}
 	
 	@Transactional
 	public void 회원가입(User user) {
